@@ -1,2 +1,2 @@
-#字
-Só um programa de uso pesoal para estudar kanjis japoneses
+# 漢字  
+Só um programa de uso pessoal para estudar kanjis japoneses
