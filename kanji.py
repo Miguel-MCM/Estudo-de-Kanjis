@@ -1,9 +1,9 @@
 #import numpy as np
 import random
 kanji_num = 0
-kanji_lista1 = list()
-kanji_lista2 = list()
-kanji_lista_lista = [kanji_lista1, kanji_lista2]
+#kanji_lista1 = list()
+#kanji_lista2 = list()
+kanji_lista_lista = [list()]
 
 def main():
 
@@ -30,6 +30,9 @@ def main():
                 for lista in kanji_lista_lista:
                     if len(lista) < 100:
                         lista.append(self)
+                        if len(lista) == 100:
+                            kanji_lista_lista.append(list())
+
                         break
 
             # 1,一,k,いち,o,ひと,s,1,u,1
