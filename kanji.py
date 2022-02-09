@@ -45,13 +45,18 @@ def main():
             organizador += ',s,' + self.traducao + ',u,' + utilizar + '\n'
             with open('kanjis.txt', 'a', encoding='utf8') as f:
                 f.write(organizador)
-                print(stg, ' salvo', str(kanji_num))
+                print(f'{stg} salvo{kanji_num} k:{kun} o:{on}')
 
             '''organizador = '{},{},{},{},{}\n'
             with open('kanjis.txt', 'a', encoding='utf8') as f:
                 f.write(organizador.format(self.num , stg, leitura, traducao, utilizar))
                 print(stg, ' salvo.', str(kanji_num))'''
 
+        def dic(self):
+            print(f'''
+        {self.num}    {self.stg}
+            k: {self.kun} o: {self.on}
+            traduçao: {self.traducao}''')
             #np.savetxt('kanjis.txt', [stg, leitura, traducao])
 
 
@@ -103,11 +108,94 @@ def main():
         Kanji(nome, leitura, traducao, usar)
         '''
 
+    def dicionario():
+
+        def buscar(item, tag):
+            retorno = list()
+            for lista in kanji_lista_lista:
+                if tag == 'stg':
+                    for kanji in lista:
+                        if kanji.stg == item:
+                            retorno.append(kanji)
+                elif tag == 'kun':
+                    for kanji in lista:
+                        if kanji.kun == item or item in kanji.kun:
+                            retorno.append(kanji)
+                elif tag == 'on':
+                    for kanji in lista:
+                        if kanji.on == item or item in kanji.on:
+                            retorno.append(kanji)
+                elif tag == 'traducao':
+                    for kanji in lista:
+                        if kanji.traducao == item:
+                            retorno.append(kanji)
+            return retorno
+
+        #selecionar uma lista expecifica, ou procurar por um kanji nas listas
+        print('Listas(lista) (procurar)')
+        while 1:
+            resposta = input()
+            ## Selecionar
+            if resposta == 'lista':
+                print(f'Selecione a lista: entre 0 e {len(kanji_lista_lista) - 1}')
+                listaSelecionada= int(input())
+                atual = 0
+                while 1:
+                    print(listaSelecionada)
+                    kanji_lista_lista[listaSelecionada][atual].dic()
+
+                    comando = input()
+                    if comando == 's':
+                        atual += 1
+
+                        if atual == 100:
+                            atual = 0
+                            listaSelecionada += 1
+                            if listaSelecionada > len(kanji_lista_lista) - 1:
+                                listaSelecionada = 0
+                        continue
+
+                    elif comando == 'a':
+                        atual -= 1
+
+                        if atual == -1:
+                            listaSelecionada -= 1
+                            atual = len(kanji_lista_lista[listaSelecionada]) - 1
+                        continue
+                    elif comando == 'q':
+                        break
+            elif resposta == 'procurar':
+                print('Item')
+                item = input()
+                print('Tag (kun,on,stg,traducao)')
+                tag = input()
+                respostas  = buscar(item,tag)
+
+                print(f'foram encontradas {len(respostas)} respostas')
+                if respostas == list():
+                    input()
+                else:
+                    n = 1
+                    while 1:
+                        respostas[n].dic()
+                        comando = input()
+
+                        if comando == 'a':
+                            n -= 1
+                            if n < 0:
+                                n = len(respostas) - 1
+                        elif comando == 'q':
+                            break
+                        else:
+                            n += 1
+                            if n == len(respostas):
+                                n = 0
+            break
+
 
 ##### Leitura dos kanjis
     with open('kanjis.txt', encoding='utf8') as f:
         linhas_lista = f.read().split('\n')
-        print(linhas_lista)
     with open('kanjis.txt','w') as f:
         f.write(' ')
     for linhas in linhas_lista:
@@ -153,7 +241,7 @@ def main():
 # Rodando o Programa
     parar = False
     while not parar:
-        print('(teste) (novo kanji)')
+        print('(teste) (novo kanji) (dicionario)')
         resp = input()
         if resp == 'novo kanji':
             while not parar:
@@ -187,6 +275,15 @@ def main():
                         if questao_resp == gabarito:
                             print('certo')
                             break
+                        elif questao_resp == 'parar':
+                            parar = True
+                            break
+
+                        elif questao_resp == 'dic':
+                            questao.dic()
+                            input()
+                            continue
+
                         else:
                             print('errado')
                             continue
@@ -197,13 +294,11 @@ def main():
                         else:
                             print('errado')
                             continue
-                    if questao_resp == 'parar':
-                        print(gabarito)
-                        parar = True
-                        break
                     #else:
                      #   print('errado')
                       #  continue
+        elif resp == 'dicionario':
+            dicionario()
 
                 #questao = random.choice(kanji_lista)
 
